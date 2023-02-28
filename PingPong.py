@@ -21,6 +21,10 @@ class GameSprite(sprite.Sprite):
         self.rect.x = player_x
         self.rect.y = player_y
 
+    #метод, отрисовывающий героя на окне
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
 
 class Player(GameSprite):
     #метод для управления спрайтом стрелками клавиатуры
@@ -38,14 +42,27 @@ class Player(GameSprite):
         if keys[K_DOWN] and self.rect.y < win_width - 80:
             self.rect.y += self.speed
 
+#создания мяча и ракетки   
+racket1 = Player('racket.png', 30, 200, 50, 150, 4) 
+racket2 = Player('racket.png', 520, 200, 50, 150, 4)
+ball = GameSprite('tenis_ball.png', 200, 200, 50, 50, 4)
+
 
 game = True
+finish = False
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
 
-    window.fill((100,100,100))
-    
+    if finish == False:
+        racket1.update_l()
+        racket2.update_r()
+        
+        window.fill((100,100,100))
+        racket1.reset()
+        racket2.reset()
+        ball.reset()
+
     display.update()
     clock.tick(FPS)
